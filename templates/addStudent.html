@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AddStudent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #4CAF50;
+            overflow: hidden;
+        }
+        
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        nav a:hover {
+            text-decoration: underline;
+        }
+        
+        section {
+            padding: 20px;
+        }
+        
+        form div {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+        
+        select,
+        input[type="text"],
+        input[type="email"],
+        input[type="date"] {
+            width: 200px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .ineterestSection {
+            display: flex;
+        }
+        
+        .interestMainSection {
+            display: flex;
+            gap: 6px;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Student Interest Form</h1>
+    </header>
+
+    <nav>
+        <a id="dashboardLink" href="#">Dashboard</a>
+        <a id="studentListLink" href="#">Student List</a>
+    </nav>
+
+
+    <section>
+        <h2>Add Student</h2>
+        <form>
+            <div>
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+
+            <div>
+                <label for="rollNumber">Roll Number:</label>
+                <input type="text" id="rollNumber" name="rollNumber" required>
+            </div>
+
+            <div>
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div>
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+
+            <div>
+                <label for="city">City:</label>
+                <select id="city" name="city" required>
+                    <option value="">Select City</option>
+                    <option value="lahore">Lahore</option>
+                    <option value="karachi">Karachi</option>
+                    <option value="peshawar">Peshawar</option>
+                    <option value="multan">Multan</option>
+                    <option value="kasur">Kasur</option>
+                    <option value="gujranwala">Gujranwala</option>
+                    <option value="sialkot">Sialkot</option>
+                    <option value="rahimYarKhan">Rahim Yar Khan</option>
+                </select>
+            </div>
+
+            <div class="ineterestSection">
+                <label for="interest">Interest:</label>
+                <!-- <select id="interest" name="interest" required> -->
+                <div class="interestMainSection">
+                    <select id="interestSelect" name="interest" onchange="handleInterestChange()">
+                    <option value="interest">Select Interest</option>
+                    <option value="math">Math</option>
+                    <option value="blogging">Blogging</option>
+                    <option value="fishing">Fishing</option>
+                    <option value="gardening">Gardening</option>
+                    <option value="hiking">Hiking</option>
+                    <option value="photography">Photography</option>
+                    <option value="painting">Painting</option>
+                    <option value="cooking">Cooking</option>
+                    <option value="reading">Reading</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="traveling">Traveling</option>
+                    <option value="other">other</option>
+                </select>
+                    <input type="text" id="customInterest" name="customInterest" placeholder="Enter custom interest" style="display: none;">
+                </div>
+            </div>
+
+            <div>
+                <label for="department">Department:</label>
+                <select id="department" name="department" required>
+                    <option value="">Select Department</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="science">Science</option>
+                    <option value="business">Business</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="degreeTitle">Degree Title:</label>
+                <select id="degreeTitle" name="degreeTitle" required>
+                    <option value="">Select Degree Title</option>
+                    <option value="associateDegree">Associate Degree</option>
+                    <option value="bachelor">Bachelor's Degree</option>
+                    <option value="m.phil">M.Phil Degree</option>
+                    <option value="postGraduateDiploma">Post-Graduate Diploma</option>
+                    <option value="doctorate">Doctorate</option>
+                    <option value="postDoctorate">Post Doctorate</option>
+                </select>
+
+            </div>
+
+            <div>
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+
+            <div>
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" required>
+            </div>
+
+            <div>
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" required>
+            </div>
+
+            <div>
+                <button type="button" class="formSubmit">Create</button>
+                <button type="button">Cancel</button>
+            </div>
+        </form>
+    </section>
+    <script src="navigation.js"></script>
+    <script src="addStudent.js"></script>
+</body>
+
+</html>

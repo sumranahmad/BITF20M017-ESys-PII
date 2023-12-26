@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('./img.jpg');
+            /* Replace with the path to your image */
+            background-size: cover;
+            /* Ensures the image covers the entire background */
+            background-position: center;
+            /* Centers the image horizontally and vertically */
+        }
+        
+        form {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="loginForm">
+        <h2>Admin Login</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="button" id="loginButton">Login</button>
+    </form>
+
+
+    <script src="./login.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add any other necessary styles or scripts -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #4CAF50;
+            overflow: hidden;
+        }
+        
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .interest-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+        
+        .interest-list li {
+            margin-right: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .top-interest {
+            background-color: green;
+            color: white;
+        }
+        
+        .bottom-interest {
+            background-color: red;
+            color: white;
+        }
+        
+        .count-box {
+            width: 100px;
+            /* Adjust the width as needed */
+            height: 100px;
+            /* Adjust the height as needed */
+            background-color: #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logOut {
+            margin-left: 900px;
+            margin-top: 6px;
+            padding: 8px;
+            border-radius: 13px;
+            border: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Student Interest Form</h1>
+    </header>
+
+    <nav>
+        <a id="addStudentLink" href="./addStudent.html">Add Student</a>
+        <a id="studentListLink" href="./students.html">Student List</a>
+        <button class="logOut">LogOut</button>
+    </nav>
+
+    <section>
+        <h2>Dashboard</h2>
+
+        <!-- Top 5 Interests -->
+        <div>
+            <h2>Top 5 Interests</h2>
+            <!-- Render the top 5 interests using the 'top_interests' variable -->
+            <ul class="interest-list">
+                {% for interest in top_interests %}
+                <li class="top-interest">{{ interest }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Bottom 5 Interests -->
+        <div>
+            <h2>Bottom 5 Interests</h2>
+            <!-- Render the bottom 5 interests using the 'bottom_interests' variable -->
+            <ul class="interest-list">
+                {% for interest in bottom_interests %}
+                <li class="bottom-interest">{{ interest }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Distinct Interests Count -->
+        <div>
+            <h2>Distinct Interests Count</h2>
+            <div class="count-box">
+                <p style="font-size: 24px; margin: 0">{{ distinct_interests_count }}</p>
+            </div>
+        </div>
+
+        <!-- Provincial Distribution -->
+        <div>
+            <h2>Provincial Distribution</h2>
+            <canvas id="provincialChart" width="300" height="300"></canvas>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Fetch provincial distribution data from the server
+                    fetch("/provincial_distribution_data")
+                        .then((response) => response.json())
+                        .then((data) => {
+                            // Extract labels and data from the fetched data
+                            var labels = data.map((item) => item.label);
+                            var values = data.map((item) => item.count);
+
+                            // Create a new pie chart with the retrieved data
+                            var ctx = document
+                                .getElementById("provincialChart")
+                                .getContext("2d");
+                            var provincialChart = new Chart(ctx, {
+                                type: "pie",
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        data: values,
+                                        backgroundColor: [
+                                            "rgba(255, 99, 132, 0.7)",
+                                            "rgba(54, 162, 235, 0.7)",
+                                            "rgba(255, 206, 86, 0.7)",
+                                            "rgba(75, 192, 192, 0.7)",
+                                            "rgba(153, 102, 255, 0.7)",
+                                            "rgba(255, 159, 64, 0.7)",
+                                            "rgba(46, 204, 113, 0.7)",
+                                            "rgba(231, 76, 60, 0.7)",
+                                        ],
+                                    }, ],
+                                },
+                                options: {
+                                    responsive: false, // Set to false to prevent resizing
+                                    maintainAspectRatio: false, // Set to false to adjust size based on canvas size
+                                    layout: {
+                                        padding: 10,
+                                    },
+                                    elements: {
+                                        arc: {
+                                            borderWidth: 0.5,
+                                        },
+                                    },
+                                    plugins: {
+                                        legend: {
+                                            display: true,
+                                            position: "right",
+                                        },
+                                    },
+                                },
+                            });
+                        })
+                        .catch((error) =>
+                            console.error(
+                                "Error fetching provincial distribution data:",
+                                error
+                            )
+                        );
+                });
+            </script>
+        </div>
+
+        <!-- Age Distribution -->
+        <div style="width: 300px; height: 200px;">
+            <h2>Age Distribution</h2>
+            <canvas id="ageDistributionChart"></canvas>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    fetch('/age_distribution_data')
+                        .then(response => response.json())
+                        .then(data => {
+                            // Sort the data array based on age in ascending order
+                            data.sort((a, b) => a.age - b.age);
+
+                            var labels = data.map(item => item.age);
+                            var values = data.map(item => item.count);
+
+                            var ctxAgeDistribution = document.getElementById('ageDistributionChart').getContext('2d');
+                            var ageDistributionChart = new Chart(ctxAgeDistribution, {
+                                type: 'bar',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Number of Students',
+                                        data: values,
+                                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                                        borderWidth: 1,
+                                    }],
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    scales: {
+                                        x: {
+                                            beginAtZero: true,
+                                        },
+                                        y: {
+                                            beginAtZero: true,
+                                        },
+                                    },
+                                },
+                            });
+                        })
+                        .catch(error => console.error('Error fetching age distribution data:', error));
+                });
+            </script>
+        </div>
+
+        <!-- Department Distribution -->
+        <div style="width: 300px; height: 200px;">
+            <h2>Department Distribution</h2>
+            <canvas id="departmentChart" width="300" height="300"></canvas>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Fetch department distribution data from the server
+                    fetch('/department_distribution_data')
+                        .then(response => response.json())
+                        .then(data => {
+                            // Extract labels and data from the fetched data
+                            var labels = data.map(item => item.label);
+                            var values = data.map(item => item.count);
+
+                            // Create a new pie chart with the retrieved data
+                            var ctxDepartment = document.getElementById('departmentChart').getContext('2d');
+                            var departmentChart = new Chart(ctxDepartment, {
+                                type: 'pie',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        data: values,
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.7)',
+                                            'rgba(54, 162, 235, 0.7)',
+                                            'rgba(255, 206, 86, 0.7)',
+                                            // Add more colors as needed
+                                        ],
+                                    }],
+                                },
+                            });
+                        })
+                        .catch(error => console.error('Error fetching department distribution data:', error));
+                });
+            </script>
+        </div>
+    </section>
+
+    <script src="navigation.js"></script>
+</body>
+
+</html>
